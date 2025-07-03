@@ -1,2 +1,6 @@
-image_manipulation/cynalg/artifacts/
+image_manipulation/cynalg/build/
+image_manipulation/cynalg/*.c
+image_manipulation/cynalg/*.html
+image_manipulation/cynalg/*.pyd
+image_manipulation/cynalg/*.so
 __pycache__/
