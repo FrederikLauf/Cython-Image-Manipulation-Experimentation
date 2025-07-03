@@ -1,6 +1,4 @@
-import pyximport
-pyximport.install()
-import linalg
+from context.image_manipulation.cynalg.artifacts import linalg
 import numpy as np
 import array
 

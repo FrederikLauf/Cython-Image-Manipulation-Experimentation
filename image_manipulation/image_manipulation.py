@@ -3,8 +3,6 @@ import matplotlib.image as mpimg
 import numpy as np
 import numba
 import logging
-import helper
-import linalg
 
 PATH = r"C:\Users\Frederik\Desktop\Raw\converted\IMG_2323.png"
 PATH = r"C:\Users\Frederik\Desktop\Urlaubsbilder\Sardegna_0767a.png"
@@ -59,15 +57,10 @@ class ImageProject:
         plt.show()
         
     def turn_to_grey(self, factor):
-        new_image = self._make_new_image()
-        linalg.turn_to_grey(self.current_image.astype(np.double)[:100, :100], new_image[:100, :100], factor)
-        self.current_image = new_image
+        pass
         
     def make_contrast(self):
-        log_info("Making contrast")
-        self.current_image = helper._make_contrast(self.current_image)
-        log_info("Made contrast")
-        self._clip_upper()
+        pass
 
     def scatter_plots(self):
         log_info("configuring plot")

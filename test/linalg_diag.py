@@ -1,13 +1,9 @@
-import pyximport
-pyximport.install()
 import cProfile
-from linalg import turn_all_towards_grey
+from context.image_manipulation.cynalg.artifacts.linalg import turn_all_towards_grey
 import numpy as np
 import matplotlib.image as mpimg
 
 
-
-    
 if __name__ == "__main__":
     
     img = mpimg.imread(r"IMG_2533_02.png").astype(np.double)

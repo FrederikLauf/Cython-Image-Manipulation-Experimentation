@@ -1,12 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 import sys
-import gimp
-import image_manipulation as im
+import gui.gui_form
+import image_manipulation.image_manipulation as im
 import numpy as np
 
 
-class ExampleApp(QtWidgets.QMainWindow, gimp.Ui_MainWindow):
+class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
     def __init__(self, parent=None):
         super(ExampleApp, self).__init__(parent)
         self.setupUi(self)
