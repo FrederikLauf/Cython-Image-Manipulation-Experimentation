@@ -4,3 +4,5 @@ image_manipulation/cynalg/*.html
 image_manipulation/cynalg/*.pyd
 image_manipulation/cynalg/*.so
 __pycache__/
+test/pytest_report.xml
+test/.pytest_cache

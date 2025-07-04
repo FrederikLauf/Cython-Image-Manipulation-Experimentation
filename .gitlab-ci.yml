@@ -1,0 +1,34 @@
+image:
+  name: "python:3.12.11"
+
+stages:
+  - build
+  - test
+
+compile_extension_module:
+  stage: build
+  before_script:
+    - apt update
+    - apt install -y python3-dev
+    - python3 -m pip install setuptools
+    - python3 -m pip install Cython
+  script:
+    - cd image_manipulation/cynalg
+    - python3 setup.py build_ext -i
+  artifacts:
+    paths:
+      - linalg.*.so
+      - linalg.c
+      - linalg.html
+
+unittest:
+  stage: test
+  script:
+    - python3 -m pip install pytest
+    - cd test
+    - python3 -m pytest --junitxml=report.xml linalg_pytest.py
+    - echo $?
+  artifacts:
+    reports:
+      junit: report.xml
+
