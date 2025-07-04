@@ -20,7 +20,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
 
     # -------global buttons----------------------------------------------------
     def on_load_image_button_clicked(self):
-        self.ImP = im.ImageProject.from_file(r"C:\Users\Frederik\Desktop\Raw\converted\IMG_2323.png")
+        self.ImP = im.ImageProject.from_file(r"test/_data/IMG_2533_02.png")
         self.display_image()
 
     def on_show_histograms_button_clicked(self):
@@ -57,7 +57,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
     # -------------------------------------------------------------------------
 
     def display_image(self):
-        img = (self.ImP.image_working * 255).astype(np.uint8)
+        img = (self.ImP.current_image * 255).astype(np.uint8)
         h, w, c = img.shape
         s = img.strides[0]
         qimg = QtGui.QImage(img, w, h, s, QtGui.QImage.Format_RGB888)

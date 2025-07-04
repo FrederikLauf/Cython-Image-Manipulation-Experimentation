@@ -1,11 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
-import numba
 import logging
 
-PATH = r"C:\Users\Frederik\Desktop\Raw\converted\IMG_2323.png"
-PATH = r"C:\Users\Frederik\Desktop\Urlaubsbilder\Sardegna_0767a.png"
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO)
 logger = logging.getLogger("ImageManipulation")
@@ -22,31 +19,18 @@ class ImageProject:
         self.image_saved = image.copy()
         self.current_image = image.copy()
         log_info("init stop")
-        
+
     @classmethod
     def from_file(cls, path):
         log_info("loading image file")
         img = mpimg.imread(path)
         log_info("loaded image file")
         return cls(img)
-        
-    def _make_new_image(self):
-        shape = self.current_image.shape
-        dtype = self.current_image.dtype
-        return np.empty(shape, np.double)
-        
+
     def _clip_upper(self):
         log_info("clipping to upper bound 1.0")
         self.current_image = np.clip(self.current_image, None, 1.0)
         log_info("clipped")
-
-    def make_grey(self):
-        log_info("Making grey")
-        img_grey = np.sum(self.current_image, 2, keepdims=True)
-        img_grey = np.repeat(img_grey, 3, 2)
-        self.current_image = img_grey[:, :]
-        self._clip_upper()
-        log_info("Made grey")
 
     def display(self):
         img_show = plt.imshow(self.current_image)
@@ -55,12 +39,6 @@ class ImageProject:
     def display_original(self):
         img_show = plt.imshow(self.image_original)
         plt.show()
-        
-    def turn_to_grey(self, factor):
-        pass
-        
-    def make_contrast(self):
-        pass
 
     def scatter_plots(self):
         log_info("configuring plot")
@@ -122,12 +100,3 @@ class ImageProject:
             self.current_image[:, :, i] = self.image_saved[:, :, i] * color_factors[i]
         log_info("multiplied colors")
         self._clip_upper()
-
-def main(imp):
-    imp.turn_to_grey(0.5)
-    
-
-if __name__ == "__main__":
-    import cProfile
-    imp = ImageProject.from_file(r"IMG_2533_02_klein.png")
-    cProfile.run('main(imp)', sort='time')

@@ -5,7 +5,7 @@ stages:
   - build
   - test
 
-compile_extension_module:
+compile_extension_modules_from_cython:
   stage: build
   before_script:
     - apt update
@@ -21,15 +21,15 @@ compile_extension_module:
       - image_manipulation/cynalg/*.c
       - image_manipulation/cynalg/*.html
 
-unittest:
+unittest_cynalg_linalg:
   stage: test
   script:
     - python3 -m pip install pytest
     - python3 -m pip install numpy
     - cd test
-    - python3 -m pytest --junitxml=pytest_report.xml linalg_pytest.py
+    - python3 -m pytest --junitxml=linalg_test_report.xml linalg_test.py
     - echo $?
   artifacts:
     reports:
-      junit: test/pytest_report.xml
+      junit: test/linalg_test_report.xml
 
