@@ -17,9 +17,9 @@ compile_extension_module:
     - python3 setup.py build_ext -i
   artifacts:
     paths:
-      - linalg_pretty.*.so
-      - linalg_pretty.c
-      - linalg_pretty.html
+      - /image_manipulation/cynalg/*.so
+      - /image_manipulation/cynalg/*.c
+      - /image_manipulation/cynalg/*.html
 
 unittest:
   stage: test
