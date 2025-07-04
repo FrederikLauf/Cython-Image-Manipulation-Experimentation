@@ -25,6 +25,7 @@ unittest:
   stage: test
   script:
     - python3 -m pip install pytest
+    - python3 -m pip install numpy
     - cd test
     - python3 -m pytest --junitxml=report.xml linalg_pytest.py
     - echo $?
