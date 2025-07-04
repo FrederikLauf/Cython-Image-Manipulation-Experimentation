@@ -28,5 +28,5 @@ jobs:
       - run: python3 -m pip install pytest
       - run: python3 -m pip install numpy
       - run: python3 -m pytest linalg_test.py
-        working-directory:: cd test
+        working-directory: ./test
 ...
