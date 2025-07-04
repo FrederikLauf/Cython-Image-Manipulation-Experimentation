@@ -10,8 +10,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 -m pip install setuptools
       - run: python3 -m pip install Cython
-      - run: cd image_manipulation/cynalg
       - run: python3 setup.py build_ext -i
+        working-directory: ./image_manipulation/cynalg
       - uses: actions/upload-artifact@v4
         with:
           path: |
