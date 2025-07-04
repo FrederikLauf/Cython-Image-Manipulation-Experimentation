@@ -27,9 +27,9 @@ unittest:
     - python3 -m pip install pytest
     - python3 -m pip install numpy
     - cd test
-    - python3 -m pytest --junitxml=report.xml linalg_pytest.py
+    - python3 -m pytest --junitxml=pytest_report.xml linalg_pytest.py
     - echo $?
   artifacts:
     reports:
-      junit: report.xml
+      junit: test/pytest_report.xml
 
