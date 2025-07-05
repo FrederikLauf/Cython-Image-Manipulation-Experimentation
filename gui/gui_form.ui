@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>743</width>
-    <height>597</height>
+    <width>1040</width>
+    <height>758</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -58,7 +58,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -245,7 +245,15 @@
        <attribute name="title">
         <string>Color saturation</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout"/>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="turnAllTowardsGreyButton">
+          <property name="text">
+           <string>Turn every pixel towards grey by 0.8 of the original angle</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -256,7 +264,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>743</width>
+     <width>1040</width>
      <height>21</height>
     </rect>
    </property>
@@ -272,8 +280,8 @@
    <slot>on_load_image_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>209</x>
-     <y>294</y>
+     <x>219</x>
+     <y>563</y>
     </hint>
     <hint type="destinationlabel">
      <x>632</x>
@@ -288,8 +296,8 @@
    <slot>on_color_brightness_slider_released()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>413</y>
+     <x>86</x>
+     <y>643</y>
     </hint>
     <hint type="destinationlabel">
      <x>126</x>
@@ -304,8 +312,8 @@
    <slot>on_color_brightness_slider_released()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>68</x>
-     <y>464</y>
+     <x>82</x>
+     <y>671</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -320,8 +328,8 @@
    <slot>on_color_brightness_slider_released()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>515</y>
+     <x>86</x>
+     <y>699</y>
     </hint>
     <hint type="destinationlabel">
      <x>548</x>
@@ -336,8 +344,8 @@
    <slot>on_color_brightness_slider_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>74</x>
-     <y>413</y>
+     <x>88</x>
+     <y>643</y>
     </hint>
     <hint type="destinationlabel">
      <x>21</x>
@@ -352,8 +360,8 @@
    <slot>on_color_brightness_slider_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>464</y>
+     <x>86</x>
+     <y>671</y>
     </hint>
     <hint type="destinationlabel">
      <x>291</x>
@@ -368,8 +376,8 @@
    <slot>on_color_brightness_slider_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>76</x>
-     <y>515</y>
+     <x>90</x>
+     <y>699</y>
     </hint>
     <hint type="destinationlabel">
      <x>581</x>
@@ -384,8 +392,8 @@
    <slot>on_color_brightness_input_edited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>399</y>
+     <x>1016</x>
+     <y>635</y>
     </hint>
     <hint type="destinationlabel">
      <x>78</x>
@@ -400,8 +408,8 @@
    <slot>on_color_brightness_input_edited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>452</y>
+     <x>1016</x>
+     <y>668</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -416,8 +424,8 @@
    <slot>on_color_brightness_input_edited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>512</y>
+     <x>1016</x>
+     <y>701</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -432,8 +440,8 @@
    <slot>on_show_histograms_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>322</x>
-     <y>300</y>
+     <x>674</x>
+     <y>563</y>
     </hint>
     <hint type="destinationlabel">
      <x>323</x>
@@ -448,12 +456,28 @@
    <slot>on_show_scatter_plots_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>615</x>
-     <y>293</y>
+     <x>1029</x>
+     <y>563</y>
     </hint>
     <hint type="destinationlabel">
      <x>542</x>
      <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>turnAllTowardsGreyButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_turn_all_towards_grey_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>518</x>
+     <y>658</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>519</x>
+     <y>378</y>
     </hint>
    </hints>
   </connection>
@@ -465,5 +489,6 @@
   <slot>on_color_brightness_input_edited()</slot>
   <slot>on_show_histograms_button_clicked()</slot>
   <slot>on_show_scatter_plots_button_clicked()</slot>
+  <slot>on_turn_all_towards_grey_button_clicked()</slot>
  </slots>
 </ui>

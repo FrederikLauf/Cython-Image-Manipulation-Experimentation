@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from image_manipulation.cynalg import cylantro
 import numpy as np
 import logging
 
@@ -23,7 +24,7 @@ class ImageProject:
     @classmethod
     def from_file(cls, path):
         log_info("loading image file")
-        img = mpimg.imread(path)
+        img = mpimg.imread(path).astype(np.double)
         log_info("loaded image file")
         return cls(img)
 
@@ -100,3 +101,7 @@ class ImageProject:
             self.current_image[:, :, i] = self.image_saved[:, :, i] * color_factors[i]
         log_info("multiplied colors")
         self._clip_upper()
+        
+    def turn_all_towards_grey(self):
+        grey_vector = np.array([1, 1, 1], dtype=self.image_saved.dtype)
+        cylantro.turn_all_towards_grey(self.image_saved, self.current_image, grey_vector)

@@ -52,6 +52,12 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
             _ = [cbs.setValue(int(cf * 100)) for cbs, cf in zip(self.color_brightness_sliders, c_factors)]
             self.on_color_brightness_slider_released()
 
+    # ------color brightness tab-----------------------------------------------
+    def on_turn_all_towards_grey_button_clicked(self):
+        if self.ImP is not None:
+            self.ImP.turn_all_towards_grey()
+            self.display_image()
+
     # -------------------------------------------------------------------------
     # --------- actions--------------------------------------------------------
     # -------------------------------------------------------------------------
