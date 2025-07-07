@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1040, 758)
+        MainWindow.resize(810, 758)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -24,9 +24,6 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
-        self.graphicsView.setObjectName("graphicsView")
-        self.gridLayout_2.addWidget(self.graphicsView, 0, 0, 1, 1)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.loadImageButton = QtWidgets.QPushButton(self.centralwidget)
@@ -39,6 +36,9 @@ class Ui_MainWindow(object):
         self.showScatterPlotsButton.setObjectName("showScatterPlotsButton")
         self.horizontalLayout_2.addWidget(self.showScatterPlotsButton)
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
+        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
+        self.graphicsView.setObjectName("graphicsView")
+        self.gridLayout_2.addWidget(self.graphicsView, 0, 0, 1, 1)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -144,14 +144,40 @@ class Ui_MainWindow(object):
         self.tab_2.setObjectName("tab_2")
         self.gridLayout = QtWidgets.QGridLayout(self.tab_2)
         self.gridLayout.setObjectName("gridLayout")
-        self.turnAllTowardsGreyButton = QtWidgets.QPushButton(self.tab_2)
-        self.turnAllTowardsGreyButton.setObjectName("turnAllTowardsGreyButton")
-        self.gridLayout.addWidget(self.turnAllTowardsGreyButton, 0, 0, 1, 1)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.desaturationFactorNameLabel = QtWidgets.QLabel(self.tab_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.desaturationFactorNameLabel.sizePolicy().hasHeightForWidth())
+        self.desaturationFactorNameLabel.setSizePolicy(sizePolicy)
+        self.desaturationFactorNameLabel.setObjectName("desaturationFactorNameLabel")
+        self.horizontalLayout_3.addWidget(self.desaturationFactorNameLabel)
+        self.desaturationFactorSlider = QtWidgets.QSlider(self.tab_2)
+        self.desaturationFactorSlider.setMaximum(100)
+        self.desaturationFactorSlider.setPageStep(0)
+        self.desaturationFactorSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.desaturationFactorSlider.setInvertedAppearance(False)
+        self.desaturationFactorSlider.setInvertedControls(False)
+        self.desaturationFactorSlider.setObjectName("desaturationFactorSlider")
+        self.horizontalLayout_3.addWidget(self.desaturationFactorSlider)
+        self.desaturationFactorLineEdit = QtWidgets.QLineEdit(self.tab_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.desaturationFactorLineEdit.sizePolicy().hasHeightForWidth())
+        self.desaturationFactorLineEdit.setSizePolicy(sizePolicy)
+        self.desaturationFactorLineEdit.setMinimumSize(QtCore.QSize(133, 0))
+        self.desaturationFactorLineEdit.setMaximumSize(QtCore.QSize(442, 16777215))
+        self.desaturationFactorLineEdit.setObjectName("desaturationFactorLineEdit")
+        self.horizontalLayout_3.addWidget(self.desaturationFactorLineEdit)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, "")
         self.gridLayout_2.addWidget(self.tabWidget, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1040, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 810, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -172,7 +198,9 @@ class Ui_MainWindow(object):
         self.blueFactorLineEdit.editingFinished.connect(MainWindow.on_color_brightness_input_edited) # type: ignore
         self.showHistogramsButton.clicked.connect(MainWindow.on_show_histograms_button_clicked) # type: ignore
         self.showScatterPlotsButton.clicked.connect(MainWindow.on_show_scatter_plots_button_clicked) # type: ignore
-        self.turnAllTowardsGreyButton.clicked.connect(MainWindow.on_turn_all_towards_grey_button_clicked) # type: ignore
+        self.desaturationFactorLineEdit.editingFinished.connect(MainWindow.on_desaturation_factor_input_edited) # type: ignore
+        self.desaturationFactorSlider.valueChanged['int'].connect(MainWindow.on_desaturation_factor_slider_changed) # type: ignore
+        self.desaturationFactorSlider.sliderReleased.connect(MainWindow.on_desaturation_factor_slider_released) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -188,7 +216,8 @@ class Ui_MainWindow(object):
         self.greenFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.blueFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Color brightness"))
-        self.turnAllTowardsGreyButton.setText(_translate("MainWindow", "Turn every pixel towards grey by 0.8 of the original angle"))
+        self.desaturationFactorNameLabel.setText(_translate("MainWindow", "Desaturation factor"))
+        self.desaturationFactorLineEdit.setText(_translate("MainWindow", "0.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Color saturation"))
 
 

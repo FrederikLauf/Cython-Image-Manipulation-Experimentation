@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QFileDialog
 import sys
 import gui.gui_form
 import image_manipulation.image_manipulation as im
@@ -20,7 +20,14 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
 
     # -------global buttons----------------------------------------------------
     def on_load_image_button_clicked(self):
-        self.ImP = im.ImageProject.from_file(r"test/_data/IMG_2533_02.png")
+        
+        file_dialog = QFileDialog(self)
+        file_dialog.setWindowTitle("Open File")
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+        if file_dialog.exec():
+            selected_files = file_dialog.selectedFiles()
+        self.ImP = im.ImageProject.from_file(selected_files[0])
         self.display_image()
 
     def on_show_histograms_button_clicked(self):
@@ -52,11 +59,27 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
             _ = [cbs.setValue(int(cf * 100)) for cbs, cf in zip(self.color_brightness_sliders, c_factors)]
             self.on_color_brightness_slider_released()
 
-    # ------color brightness tab-----------------------------------------------
-    def on_turn_all_towards_grey_button_clicked(self):
+    # ------color saturation tab-----------------------------------------------
+    def on_desaturation_factor_slider_changed(self):
+        dsf = self.desaturationFactorSlider.value() / 100
+        self.desaturationFactorLineEdit.setText(str(dsf))
+
+    def on_desaturation_factor_slider_released(self):
+        desaturation_factor = self.desaturationFactorSlider.value() / 100
         if self.ImP is not None:
-            self.ImP.turn_all_towards_grey()
+            self.ImP.turn_all_towards_other(desaturation_factor)
             self.display_image()
+
+    def on_desaturation_factor_input_edited(self):
+        try:
+            desaturation_factor = float(self.desaturationFactorLineEdit.text())
+        except ValueError:
+            desaturation_factor = 99.0
+        if not 0.0 <= desaturation_factor <= 1.0:
+            self.on_desaturation_factor_slider_changed()
+        else:
+            self.desaturationFactorSlider.setValue(int(desaturation_factor * 100))
+            self.on_desaturation_factor_slider_released()
 
     # -------------------------------------------------------------------------
     # --------- actions--------------------------------------------------------
@@ -68,7 +91,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         s = img.strides[0]
         qimg = QtGui.QImage(img, w, h, s, QtGui.QImage.Format_RGB888)
         pixmap = QtGui.QPixmap.fromImage(qimg)
-        pixmap = pixmap.scaledToHeight(450)
+        pixmap = pixmap.scaledToHeight(750)
         scene = QtWidgets.QGraphicsScene(self)
         scene.addPixmap(pixmap)
         self.graphicsView.setScene(scene)

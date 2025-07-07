@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from PIL import Image
 from image_manipulation.cynalg import cylantro
 import numpy as np
 import logging
@@ -24,9 +25,13 @@ class ImageProject:
     @classmethod
     def from_file(cls, path):
         log_info("loading image file")
-        img = mpimg.imread(path).astype(np.double)
+        pil_image = Image.open(path)
+        img = (np.asarray(pil_image) / 255).astype(np.double)
+        M, N = img.shape[0], img.shape[1]
+        pil_image_red = pil_image.resize((750, int(M* 750 / N)), resample=Image.Resampling.LANCZOS)
+        img_reduced = (np.asarray(pil_image_red) / 255).astype(np.double)
         log_info("loaded image file")
-        return cls(img)
+        return cls(img_reduced)
 
     def _clip_upper(self):
         log_info("clipping to upper bound 1.0")
@@ -102,6 +107,8 @@ class ImageProject:
         log_info("multiplied colors")
         self._clip_upper()
         
-    def turn_all_towards_grey(self):
-        grey_vector = np.array([1, 1, 1], dtype=self.image_saved.dtype)
-        cylantro.turn_all_towards_grey(self.image_saved, self.current_image, grey_vector)
+    def turn_all_towards_other(self, factor):
+        log_info("desaturating")
+        grey_vector = np.array([1, 1, 1], dtype=self.image_original.dtype)
+        cylantro.turn_all_towards_other(self.image_original, self.current_image, grey_vector, factor)
+        log_info("desaturated")

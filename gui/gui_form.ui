@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1040</width>
-    <height>758</height>
+    <width>1402</width>
+    <height>870</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,9 +21,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
@@ -48,6 +45,9 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView"/>
     </item>
     <item row="2" column="0">
      <widget class="QTabWidget" name="tabWidget">
@@ -247,11 +247,65 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <widget class="QPushButton" name="turnAllTowardsGreyButton">
-          <property name="text">
-           <string>Turn every pixel towards grey by 0.8 of the original angle</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="desaturationFactorNameLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Desaturation factor</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="desaturationFactorSlider">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="pageStep">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="invertedAppearance">
+             <bool>false</bool>
+            </property>
+            <property name="invertedControls">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="desaturationFactorLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>133</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>442</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>0.0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -264,7 +318,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1040</width>
+     <width>1402</width>
      <height>21</height>
     </rect>
    </property>
@@ -440,7 +494,7 @@
    <slot>on_show_histograms_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>674</x>
+     <x>534</x>
      <y>563</y>
     </hint>
     <hint type="destinationlabel">
@@ -456,7 +510,7 @@
    <slot>on_show_scatter_plots_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1029</x>
+     <x>799</x>
      <y>563</y>
     </hint>
     <hint type="destinationlabel">
@@ -466,17 +520,49 @@
    </hints>
   </connection>
   <connection>
-   <sender>turnAllTowardsGreyButton</sender>
-   <signal>clicked()</signal>
+   <sender>desaturationFactorLineEdit</sender>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>on_turn_all_towards_grey_button_clicked()</slot>
+   <slot>on_desaturation_factor_input_edited()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>518</x>
-     <y>658</y>
+     <x>714</x>
+     <y>672</y>
     </hint>
     <hint type="destinationlabel">
      <x>519</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>desaturationFactorSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_desaturation_factor_slider_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>672</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>desaturationFactorSlider</sender>
+   <signal>sliderReleased()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_desaturation_factor_slider_released()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>672</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
      <y>378</y>
     </hint>
    </hints>
@@ -489,6 +575,8 @@
   <slot>on_color_brightness_input_edited()</slot>
   <slot>on_show_histograms_button_clicked()</slot>
   <slot>on_show_scatter_plots_button_clicked()</slot>
-  <slot>on_turn_all_towards_grey_button_clicked()</slot>
+  <slot>on_desaturation_factor_slider_changed()</slot>
+  <slot>on_desaturation_factor_input_edited()</slot>
+  <slot>on_desaturation_factor_slider_released()</slot>
  </slots>
 </ui>
