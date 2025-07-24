@@ -33,6 +33,21 @@ cpdef rotate_vector_towards_other(double[:] v, double[:] w, double[:] g, double 
         w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
 
 
+cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):
+    cdef:
+        double s, c, C, a0, a1, a2
+    # rotate
+    a0 = axis[0]
+    a1 = axis[1]
+    a2 = axis[2]
+    s = sin(angle)
+    c = cos(angle)
+    C = (1 - c)
+    w[0] = (C * a0 * a0 + c) * v[0] + (C * a0 * a1 - s * a2) * v[1] + (C * a0 * a2 + s * a1) * v[2]
+    w[1] = (C * a1 * a0 + s * a2) * v[0] + (C * a1 * a1 + c) * v[1] + (C * a1 * a2 - s * a0) * v[2]
+    w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
+
+
 cpdef turn_all_towards_other(double[:,:,:] img_in, double[:,:,:] img_out, double[:] other, double factor):
     cdef:
         int N = img_in.shape[0]
@@ -42,3 +57,13 @@ cpdef turn_all_towards_other(double[:,:,:] img_in, double[:,:,:] img_out, double
     for i in range(N):
         for j in range(M):
             rotate_vector_towards_other(img_in[i, j], img_out[i, j], other, other_norm, factor)
+
+
+cpdef rotate_all_constant(double[:,:,:] img_in, double[:,:,:] img_out, double[:] axis, double angle):
+    cdef:
+        int N = img_in.shape[0]
+        int M = img_in.shape[1]
+        int i, j
+    for i in range(N):
+        for j in range(M):
+            rotate_vector(img_in[i, j], img_out[i, j], axis, angle)
