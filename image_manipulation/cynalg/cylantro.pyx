@@ -59,6 +59,18 @@ cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):
     w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
 
 
+cpdef scale_components(double[:] v, double[:] w, double factor_r, double factor_g, double factor_b):
+    w[0] = v[0] * factor_r
+    if w[0] > 1.0:
+        w[0] = 1.0
+    w[1] = v[1] * factor_g
+    if w[1] > 1.0:
+        w[1] = 1.0
+    w[2] = v[2] * factor_b
+    if w[2] > 1.0:
+        w[2] = 1.0
+
+
 cpdef turn_all_towards_other(double[:,:,:] img_in, double[:,:,:] img_out, double[:] other, double factor):
     cdef:
         int N = img_in.shape[0]
@@ -78,3 +90,13 @@ cpdef rotate_all_constant(double[:,:,:] img_in, double[:,:,:] img_out, double[:]
     for i in range(N):
         for j in range(M):
             rotate_vector(img_in[i, j], img_out[i, j], axis, angle)
+
+
+cpdef scale_all_in_components(double[:,:,:] img_in, double[:,:,:] img_out, double factor_r, double factor_g, double factor_b):
+    cdef:
+        int N = img_in.shape[0]
+        int M = img_in.shape[1]
+        int i, j
+    for i in range(N):
+        for j in range(M):
+            scale_components(img_in[i, j], img_out[i, j], factor_r, factor_g, factor_b)

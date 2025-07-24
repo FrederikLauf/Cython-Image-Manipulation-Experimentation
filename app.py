@@ -97,7 +97,6 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.desaturation_target_color = np.array([red, green, blue], dtype=np.double) / 255
         self.on_desaturation_factor_slider_released()
 
-
     # ------image scaling tab-----------------------------------------------
     def on_scaling_input_edited(self):
         try:
@@ -111,8 +110,8 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
             self.on_scaling_slider_released()
 
     def on_scaling_slider_released(self):
-        isf = self.imageScalingSlider.value() / 100
         if self.ImP is not None:
+            isf = self.imageScalingSlider.value() / 100
             self.image_height = int(self.ImP.image_original.shape[0] * isf)
             self.display_image()
 
