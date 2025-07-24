@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(810, 758)
+        MainWindow.resize(983, 870)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -46,6 +46,35 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy)
         self.tabWidget.setObjectName("tabWidget")
+        self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.tab_3)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.scaleToWindowButton = QtWidgets.QPushButton(self.tab_3)
+        self.scaleToWindowButton.setObjectName("scaleToWindowButton")
+        self.horizontalLayout_4.addWidget(self.scaleToWindowButton)
+        self.imageScalingSlider = QtWidgets.QSlider(self.tab_3)
+        self.imageScalingSlider.setMaximum(100)
+        self.imageScalingSlider.setPageStep(0)
+        self.imageScalingSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.imageScalingSlider.setObjectName("imageScalingSlider")
+        self.horizontalLayout_4.addWidget(self.imageScalingSlider)
+        self.imageScalingLineEdit = QtWidgets.QLineEdit(self.tab_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.imageScalingLineEdit.sizePolicy().hasHeightForWidth())
+        self.imageScalingLineEdit.setSizePolicy(sizePolicy)
+        self.imageScalingLineEdit.setObjectName("imageScalingLineEdit")
+        self.horizontalLayout_4.addWidget(self.imageScalingLineEdit)
+        self.originalSizeButton = QtWidgets.QPushButton(self.tab_3)
+        self.originalSizeButton.setObjectName("originalSizeButton")
+        self.horizontalLayout_4.addWidget(self.originalSizeButton)
+        self.gridLayout_3.addLayout(self.horizontalLayout_4, 0, 0, 1, 1)
+        self.tabWidget.addTab(self.tab_3, "")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.tab)
@@ -177,7 +206,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.tabWidget, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 810, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 983, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -185,7 +214,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.loadImageButton.clicked.connect(MainWindow.on_load_image_button_clicked) # type: ignore
         self.redFactorSlider.sliderReleased.connect(MainWindow.on_color_brightness_slider_released) # type: ignore
         self.greenFactorSlider.sliderReleased.connect(MainWindow.on_color_brightness_slider_released) # type: ignore
@@ -201,6 +230,11 @@ class Ui_MainWindow(object):
         self.desaturationFactorLineEdit.editingFinished.connect(MainWindow.on_desaturation_factor_input_edited) # type: ignore
         self.desaturationFactorSlider.valueChanged['int'].connect(MainWindow.on_desaturation_factor_slider_changed) # type: ignore
         self.desaturationFactorSlider.sliderReleased.connect(MainWindow.on_desaturation_factor_slider_released) # type: ignore
+        self.scaleToWindowButton.clicked.connect(MainWindow.on_scale_to_window_button_clicked) # type: ignore
+        self.originalSizeButton.clicked.connect(MainWindow.on_original_size_button_clicked) # type: ignore
+        self.imageScalingLineEdit.editingFinished.connect(MainWindow.on_scaling_input_edited) # type: ignore
+        self.imageScalingSlider.valueChanged['int'].connect(MainWindow.on_scaling_slider_changed) # type: ignore
+        self.imageScalingSlider.sliderReleased.connect(MainWindow.on_scaling_slider_released) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -209,6 +243,10 @@ class Ui_MainWindow(object):
         self.loadImageButton.setText(_translate("MainWindow", "load image"))
         self.showHistogramsButton.setText(_translate("MainWindow", "show histograms"))
         self.showScatterPlotsButton.setText(_translate("MainWindow", "show scatter plots"))
+        self.scaleToWindowButton.setText(_translate("MainWindow", "Scale to window height"))
+        self.imageScalingLineEdit.setText(_translate("MainWindow", "0.0"))
+        self.originalSizeButton.setText(_translate("MainWindow", "Original size"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Image preview"))
         self.redFactorNameLabel.setText(_translate("MainWindow", "Red"))
         self.greenFactorNameLabel.setText(_translate("MainWindow", "Green"))
         self.blueFactorNameLabel.setText(_translate("MainWindow", "Blue"))
