@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication, QFileDialog, QColorDialog
 import sys
 import gui.gui_form
 import image_manipulation.image_manipulation as im
@@ -14,6 +14,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.image_height = None
         self.color_brightness_sliders = [self.redFactorSlider, self.greenFactorSlider, self.blueFactorSlider]
         self.color_brightness_line_edits = [self.redFactorLineEdit, self.greenFactorLineEdit, self.blueFactorLineEdit]
+        self.desaturation_target_color = np.array([1,1,1], dtype=np.double)
 
     # -------------------------------------------------------------------------
     # -------callback functions------------------------------------------------
@@ -25,19 +26,23 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         file_dialog.setWindowTitle("Open File")
         file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
         file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+        selected_files = None
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
-        self.ImP = im.ImageProject.from_file(selected_files[0])
-        self.image_height = self.ImP.image_original.shape[0]
-        self.imageScalingSlider.setValue(100)
-        self.display_image()
+        if selected_files is not None:
+            self.ImP = im.ImageProject.from_file(selected_files[0])
+            self.image_height = self.ImP.image_original.shape[0]
+            self.imageScalingSlider.setValue(100)
+            self.display_image()
 
     def on_show_histograms_button_clicked(self):
-        self.ImP.histogram_plots()
+        if self.ImP is not None:
+            self.ImP.histogram_plots()
 
     def on_show_scatter_plots_button_clicked(self):
-        self.ImP.scatter_plots()
-        self.ImP.scatter_plot_3d()
+        if self.ImP is not None:
+            self.ImP.scatter_plots()
+            self.ImP.scatter_plot_3d()
 
     # ------color brightness tab-----------------------------------------------
     def on_color_brightness_slider_changed(self):
@@ -61,7 +66,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
             _ = [cbs.setValue(int(cf * 100)) for cbs, cf in zip(self.color_brightness_sliders, c_factors)]
             self.on_color_brightness_slider_released()
 
-    # ------color saturation tab-----------------------------------------------
+    # ------color desaturation tab-----------------------------------------------
     def on_desaturation_factor_slider_changed(self):
         dsf = self.desaturationFactorSlider.value() / 100
         self.desaturationFactorLineEdit.setText(str(dsf))
@@ -69,7 +74,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
     def on_desaturation_factor_slider_released(self):
         desaturation_factor = self.desaturationFactorSlider.value() / 100
         if self.ImP is not None:
-            self.ImP.turn_all_towards_other(desaturation_factor)
+            self.ImP.turn_all_towards_other(desaturation_factor, self.desaturation_target_color)
             self.display_image()
 
     def on_desaturation_factor_input_edited(self):
@@ -82,6 +87,16 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         else:
             self.desaturationFactorSlider.setValue(int(desaturation_factor * 100))
             self.on_desaturation_factor_slider_released()
+
+    def on_desaturation_target_button_clicked(self):
+        color = QColorDialog.getColor()
+        red = color.red()
+        green = color.green()
+        blue = color.blue()
+        self.desaturationTargetButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
+        self.desaturation_target_color = np.array([red, green, blue], dtype=np.double) / 255
+        self.on_desaturation_factor_slider_released()
+
 
     # ------image scaling tab-----------------------------------------------
     def on_scaling_input_edited(self):

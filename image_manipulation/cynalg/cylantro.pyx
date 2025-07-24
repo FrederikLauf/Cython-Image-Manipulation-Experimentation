@@ -9,7 +9,7 @@ from libc.math cimport sqrt, asin, sin, cos
 @cdivision(True)
 cpdef rotate_vector_towards_other(double[:] v, double[:] w, double[:] g, double g_norm, double factor):
     cdef:
-        double a0, a1, a2, cross_norm, s, c, C, angle
+        double a0, a1, a2, cross_norm, s, c, C, angle, maximum
     # cross product of v and g
     a0 = (v[1] * g[2] - v[2] * g[1])
     a1 = (v[2] * g[0] - v[0] * g[2])
@@ -31,6 +31,17 @@ cpdef rotate_vector_towards_other(double[:] v, double[:] w, double[:] g, double 
         w[0] = (C * a0 * a0 + c) * v[0] + (C * a0 * a1 - s * a2) * v[1] + (C * a0 * a2 + s * a1) * v[2]
         w[1] = (C * a1 * a0 + s * a2) * v[0] + (C * a1 * a1 + c) * v[1] + (C * a1 * a2 - s * a0) * v[2]
         w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
+        # divide by largest component if neccessary
+        if w[0] > 1.0 or w[1] > 1.0 or w[2] > 1.0:
+            if w[0] >= w[1] and w[0] >= w[2]:
+                maximum = w[0]
+            elif w[1] >= w[2]:
+                maximum = w[1]
+            else:
+                maximum = w[2]
+            w[0] /= maximum
+            w[1] /= maximum
+            w[2] /= maximum
 
 
 cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):

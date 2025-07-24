@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>983</width>
-    <height>870</height>
+    <width>1137</width>
+    <height>867</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -58,7 +58,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -297,11 +297,18 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Color saturation</string>
+        <string>Color desaturation</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="desaturationTargetButton">
+            <property name="text">
+             <string>Target</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLabel" name="desaturationFactorNameLabel">
             <property name="sizePolicy">
@@ -363,6 +370,11 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Color calibration</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -372,7 +384,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>983</width>
+     <width>1137</width>
      <height>21</height>
     </rect>
    </property>
@@ -701,6 +713,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>desaturationTargetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_desaturation_target_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_load_image_button_clicked()</slot>
@@ -717,5 +745,6 @@
   <slot>on_scaling_input_edited()</slot>
   <slot>on_scaling_slider_changed()</slot>
   <slot>on_scaling_slider_released()</slot>
+  <slot>on_desaturation_target_button_clicked()</slot>
  </slots>
 </ui>

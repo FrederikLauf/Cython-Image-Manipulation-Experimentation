@@ -107,10 +107,9 @@ class ImageProject:
         log_info("multiplied colors")
         self._clip_upper()
         
-    def turn_all_towards_other(self, factor):
+    def turn_all_towards_other(self, factor, other):
         log_info("desaturating")
-        grey_vector = np.array([1, 1, 1], dtype=self.image_original.dtype)
-        cylantro.turn_all_towards_other(self.image_original, self.current_image, grey_vector, factor)
+        cylantro.turn_all_towards_other(self.image_original, self.current_image, other, factor)
         log_info("desaturated")
 
     def rotate_all_constant(self, axis, angle):

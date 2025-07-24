@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(983, 870)
+        MainWindow.resize(1137, 867)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -175,6 +175,9 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.desaturationTargetButton = QtWidgets.QPushButton(self.tab_2)
+        self.desaturationTargetButton.setObjectName("desaturationTargetButton")
+        self.horizontalLayout_3.addWidget(self.desaturationTargetButton)
         self.desaturationFactorNameLabel = QtWidgets.QLabel(self.tab_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -203,10 +206,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.desaturationFactorLineEdit)
         self.gridLayout.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_4 = QtWidgets.QWidget()
+        self.tab_4.setObjectName("tab_4")
+        self.tabWidget.addTab(self.tab_4, "")
         self.gridLayout_2.addWidget(self.tabWidget, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 983, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1137, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -214,7 +220,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.loadImageButton.clicked.connect(MainWindow.on_load_image_button_clicked) # type: ignore
         self.redFactorSlider.sliderReleased.connect(MainWindow.on_color_brightness_slider_released) # type: ignore
         self.greenFactorSlider.sliderReleased.connect(MainWindow.on_color_brightness_slider_released) # type: ignore
@@ -235,6 +241,7 @@ class Ui_MainWindow(object):
         self.imageScalingLineEdit.editingFinished.connect(MainWindow.on_scaling_input_edited) # type: ignore
         self.imageScalingSlider.valueChanged['int'].connect(MainWindow.on_scaling_slider_changed) # type: ignore
         self.imageScalingSlider.sliderReleased.connect(MainWindow.on_scaling_slider_released) # type: ignore
+        self.desaturationTargetButton.clicked.connect(MainWindow.on_desaturation_target_button_clicked) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -254,9 +261,11 @@ class Ui_MainWindow(object):
         self.greenFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.blueFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Color brightness"))
+        self.desaturationTargetButton.setText(_translate("MainWindow", "Target"))
         self.desaturationFactorNameLabel.setText(_translate("MainWindow", "Desaturation factor"))
         self.desaturationFactorLineEdit.setText(_translate("MainWindow", "0.0"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Color saturation"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Color desaturation"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Color calibration"))
 
 
 if __name__ == "__main__":
