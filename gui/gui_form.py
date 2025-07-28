@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1137, 867)
+        MainWindow.resize(1076, 867)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -218,6 +218,31 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
+        self.gridLayout_5 = QtWidgets.QGridLayout(self.tab_4)
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.calibrationAxisButton = QtWidgets.QPushButton(self.tab_4)
+        self.calibrationAxisButton.setObjectName("calibrationAxisButton")
+        self.horizontalLayout_6.addWidget(self.calibrationAxisButton)
+        self.label_2 = QtWidgets.QLabel(self.tab_4)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_6.addWidget(self.label_2)
+        self.calibrationAngleSlider = QtWidgets.QSlider(self.tab_4)
+        self.calibrationAngleSlider.setMaximum(360)
+        self.calibrationAngleSlider.setPageStep(0)
+        self.calibrationAngleSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.calibrationAngleSlider.setObjectName("calibrationAngleSlider")
+        self.horizontalLayout_6.addWidget(self.calibrationAngleSlider)
+        self.calibrationAngleLineEdit = QtWidgets.QLineEdit(self.tab_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.calibrationAngleLineEdit.sizePolicy().hasHeightForWidth())
+        self.calibrationAngleLineEdit.setSizePolicy(sizePolicy)
+        self.calibrationAngleLineEdit.setObjectName("calibrationAngleLineEdit")
+        self.horizontalLayout_6.addWidget(self.calibrationAngleLineEdit)
+        self.gridLayout_5.addLayout(self.horizontalLayout_6, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_4, "")
         self.gridLayout_2.addWidget(self.tabWidget, 2, 0, 1, 1)
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
@@ -237,7 +262,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1137, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1076, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -270,6 +295,10 @@ class Ui_MainWindow(object):
         self.saturationLineEdit.editingFinished.connect(MainWindow.on_saturation_input_edited) # type: ignore
         self.saturationSlider.sliderReleased.connect(MainWindow.on_saturation_slider_released) # type: ignore
         self.saturationSlider.valueChanged['int'].connect(MainWindow.on_saturation_slider_changed) # type: ignore
+        self.calibrationAxisButton.clicked.connect(MainWindow.on_calibration_axis_button_clicked) # type: ignore
+        self.calibrationAngleSlider.sliderReleased.connect(MainWindow.on_calibration_angle_slider_released) # type: ignore
+        self.calibrationAngleSlider.valueChanged['int'].connect(MainWindow.on_calibration_angle_slider_changed) # type: ignore
+        self.calibrationAngleLineEdit.editingFinished.connect(MainWindow.on_calibration_angle_input_edited) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -286,13 +315,16 @@ class Ui_MainWindow(object):
         self.greenFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.blueFactorLineEdit.setText(_translate("MainWindow", "1.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Color brightness"))
-        self.desaturationTargetButton.setText(_translate("MainWindow", "Target"))
+        self.desaturationTargetButton.setText(_translate("MainWindow", "Target tone"))
         self.desaturationFactorNameLabel.setText(_translate("MainWindow", "Desaturation factor"))
         self.desaturationFactorLineEdit.setText(_translate("MainWindow", "0.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Color desaturation"))
         self.label.setText(_translate("MainWindow", "Saturation factor"))
         self.saturationLineEdit.setText(_translate("MainWindow", "0.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "Color saturation"))
+        self.calibrationAxisButton.setText(_translate("MainWindow", "Axis color"))
+        self.label_2.setText(_translate("MainWindow", "Rotation angle in degrees"))
+        self.calibrationAngleLineEdit.setText(_translate("MainWindow", "0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Color calibration"))
         self.loadImageButton.setText(_translate("MainWindow", "load image"))
         self.showHistogramsButton.setText(_translate("MainWindow", "show histograms"))

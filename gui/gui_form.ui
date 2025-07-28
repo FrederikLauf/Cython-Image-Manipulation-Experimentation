@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1137</width>
+    <width>1076</width>
     <height>867</height>
    </rect>
   </property>
@@ -277,7 +277,7 @@
           <item>
            <widget class="QPushButton" name="desaturationTargetButton">
             <property name="text">
-             <string>Target</string>
+             <string>Target tone</string>
             </property>
            </widget>
           </item>
@@ -390,6 +390,52 @@
        <attribute name="title">
         <string>Color calibration</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QPushButton" name="calibrationAxisButton">
+            <property name="text">
+             <string>Axis color</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Rotation angle in degrees</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="calibrationAngleSlider">
+            <property name="maximum">
+             <number>360</number>
+            </property>
+            <property name="pageStep">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="calibrationAngleLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -428,7 +474,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1137</width>
+     <width>1076</width>
      <height>21</height>
     </rect>
    </property>
@@ -821,6 +867,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>calibrationAxisButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_axis_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationAngleSlider</sender>
+   <signal>sliderReleased()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_angle_slider_released()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>572</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationAngleSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_angle_slider_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>572</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationAngleLineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_angle_input_edited()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>986</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_load_image_button_clicked()</slot>
@@ -841,5 +951,9 @@
   <slot>on_saturation_slider_released()</slot>
   <slot>on_saturation_slider_changed()</slot>
   <slot>on_saturation_input_edited()</slot>
+  <slot>on_calibration_angle_slider_released()</slot>
+  <slot>on_calibration_angle_slider_changed()</slot>
+  <slot>on_calibration_angle_input_edited()</slot>
+  <slot>on_calibration_axis_button_clicked()</slot>
  </slots>
 </ui>

@@ -92,6 +92,5 @@ class ImageProject:
         self._clip()
 
     def rotate_all_constant(self, axis, angle):
-        axis = np.array([0, 0, 1], dtype=self.image_original.dtype)
-        angle = 0.2
         cylantro.rotate_all_constant(self.image_original, self.current_image, axis, angle)
+        self._clip()

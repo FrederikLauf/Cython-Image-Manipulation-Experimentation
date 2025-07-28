@@ -92,6 +92,17 @@ cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):
     w[0] = (C * a0 * a0 + c) * v[0] + (C * a0 * a1 - s * a2) * v[1] + (C * a0 * a2 + s * a1) * v[2]
     w[1] = (C * a1 * a0 + s * a2) * v[0] + (C * a1 * a1 + c) * v[1] + (C * a1 * a2 - s * a0) * v[2]
     w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
+    # divide by largest component if neccessary
+    if w[0] > 1.0 or w[1] > 1.0 or w[2] > 1.0:
+        if w[0] >= w[1] and w[0] >= w[2]:
+            maximum = w[0]
+        elif w[1] >= w[2]:
+            maximum = w[1]
+        else:
+            maximum = w[2]
+        w[0] /= maximum
+        w[1] /= maximum
+        w[2] /= maximum
 
 cpdef scale_components(double[:] v, double[:] w, double factor_r, double factor_g, double factor_b):
     w[0] = v[0] * factor_r
@@ -103,7 +114,6 @@ cpdef scale_components(double[:] v, double[:] w, double factor_r, double factor_
     w[2] = v[2] * factor_b
     if w[2] > 1.0:
         w[2] = 1.0
-
 
 cpdef turn_all_towards_other(double[:,:,:] img_in, double[:,:,:] img_out, double[:] other, double factor):
     cdef:

@@ -15,6 +15,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.color_brightness_sliders = [self.redFactorSlider, self.greenFactorSlider, self.blueFactorSlider]
         self.color_brightness_line_edits = [self.redFactorLineEdit, self.greenFactorLineEdit, self.blueFactorLineEdit]
         self.desaturation_target_color = np.array([1,1,1], dtype=np.double)
+        self.calibration_axis = np.array([1,1,1], dtype=np.double)
 
     # -------------------------------------------------------------------------
     # -------callback functions------------------------------------------------
@@ -97,6 +98,37 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.desaturation_target_color = np.array([red, green, blue], dtype=np.double) / 255
         self.on_desaturation_factor_slider_released()
         
+    # ------color calibration tab-----------------------------------------------
+    def on_calibration_angle_slider_changed(self):
+        dsf = self.calibrationAngleSlider.value()
+        self.calibrationAngleLineEdit.setText(str(dsf))
+
+    def on_calibration_angle_slider_released(self):
+        calibration = self.calibrationAngleSlider.value() * (2* np.pi / 360)
+        if self.ImP is not None:
+            self.ImP.rotate_all_constant(self.calibration_axis, calibration)
+            self.display_image()
+
+    def on_calibration_angle_input_edited(self):
+        try:
+            calibration = int(self.calibrationAngleLineEdit.text())
+        except ValueError:
+            calibration = 999
+        if not 0 <= calibration <= 360:
+            self.on_calibration_slider_changed()
+        else:
+            self.calibrationAngleSlider.setValue(calibration)
+            self.on_calibration_angle_slider_released()
+
+    def on_calibration_axis_button_clicked(self):
+        color = QColorDialog.getColor()
+        red = color.red()
+        green = color.green()
+        blue = color.blue()
+        self.calibrationAxisButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
+        self.calibration_axis = np.array([red, green, blue], dtype=np.double) / 255
+        self.on_calibration_angle_slider_released()
+
     # ------color saturation tab-----------------------------------------------
     def on_saturation_slider_changed(self):
         dsf = self.saturationSlider.value() / 100
