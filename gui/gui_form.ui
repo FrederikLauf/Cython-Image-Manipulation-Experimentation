@@ -21,34 +21,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="loadImageButton">
-        <property name="text">
-         <string>load image</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="showHistogramsButton">
-        <property name="text">
-         <string>show histograms</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="showScatterPlotsButton">
-        <property name="text">
-         <string>show scatter plots</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
     <item row="2" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
@@ -370,12 +342,84 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Color saturation</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Saturation factor</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="saturationSlider">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="pageStep">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="saturationLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>0.0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
         <string>Color calibration</string>
        </attribute>
       </widget>
      </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="loadImageButton">
+        <property name="text">
+         <string>load image</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="showHistogramsButton">
+        <property name="text">
+         <string>show histograms</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="showScatterPlotsButton">
+        <property name="text">
+         <string>show scatter plots</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -729,6 +773,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>saturationLineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_saturation_input_edited()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1047</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saturationSlider</sender>
+   <signal>sliderReleased()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_saturation_slider_released()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>541</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saturationSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_saturation_slider_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>541</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_load_image_button_clicked()</slot>
@@ -746,5 +838,8 @@
   <slot>on_scaling_slider_changed()</slot>
   <slot>on_scaling_slider_released()</slot>
   <slot>on_desaturation_target_button_clicked()</slot>
+  <slot>on_saturation_slider_released()</slot>
+  <slot>on_saturation_slider_changed()</slot>
+  <slot>on_saturation_input_edited()</slot>
  </slots>
 </ui>

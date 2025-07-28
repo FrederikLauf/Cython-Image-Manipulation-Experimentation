@@ -96,6 +96,29 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.desaturationTargetButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
         self.desaturation_target_color = np.array([red, green, blue], dtype=np.double) / 255
         self.on_desaturation_factor_slider_released()
+        
+    # ------color saturation tab-----------------------------------------------
+    def on_saturation_slider_changed(self):
+        dsf = self.saturationSlider.value() / 100
+        self.saturationLineEdit.setText(str(dsf))
+
+    def on_saturation_slider_released(self):
+        saturation_factor = self.saturationSlider.value() / 100
+        if self.ImP is not None:
+            other = np.array([1, 1, 1], dtype=np.double)
+            self.ImP.turn_all_awayfrom_other(saturation_factor, other)
+            self.display_image()
+
+    def on_saturation_input_edited(self):
+        try:
+            saturation_factor = float(self.saturationLineEdit.text())
+        except ValueError:
+            saturation_factor = 99.0
+        if not 0.0 <= saturation_factor <= 1.0:
+            self.on_saturation_slider_changed()
+        else:
+            self.saturationSlider.setValue(int(saturation_factor * 100))
+            self.on_saturation_slider_released()
 
     # ------image scaling tab-----------------------------------------------
     def on_scaling_input_edited(self):

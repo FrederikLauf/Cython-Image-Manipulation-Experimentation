@@ -1,9 +1,8 @@
-## cython: profile=True
 # cython: boundscheck=False
 # cython: wraparound=False
 
 from cython cimport cdivision
-from libc.math cimport sqrt, asin, sin, cos
+from libc.math cimport sqrt, asin, sin, cos, acos
 
 
 @cdivision(True)
@@ -43,6 +42,42 @@ cpdef rotate_vector_towards_other(double[:] v, double[:] w, double[:] g, double 
             w[1] /= maximum
             w[2] /= maximum
 
+cpdef rotate_vector_awayfrom_other(double[:] v, double[:] w, double[:] g, double g_norm, double factor):
+    cdef:
+        double a0, a1, a2, cross_norm, s, c, C, angle, maximum, edge_angle
+    # cross product of v and g
+    a0 = (v[1] * g[2] - v[2] * g[1])
+    a1 = (v[2] * g[0] - v[0] * g[2])
+    a2 = (v[0] * g[1] - v[1] * g[0])
+    if a0 == a1 == a2 == 0.0:  # <=> v=0 or g=0 or v||g
+        w[:] = v
+    else:
+        # rotation axis = normalised cross product
+        cross_norm = sqrt(a0 * a0 + a1 * a1 + a2 * a2)
+        a0 /= cross_norm
+        a1 /= cross_norm
+        a2 /= cross_norm
+        # angle between v and g
+        edge_angle = acos(1/sqrt(3))
+        angle = - factor * (edge_angle - asin(cross_norm / (sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) * g_norm)))
+        # rotate
+        s = sin(angle)
+        c = cos(angle)
+        C = (1 - c)
+        w[0] = (C * a0 * a0 + c) * v[0] + (C * a0 * a1 - s * a2) * v[1] + (C * a0 * a2 + s * a1) * v[2]
+        w[1] = (C * a1 * a0 + s * a2) * v[0] + (C * a1 * a1 + c) * v[1] + (C * a1 * a2 - s * a0) * v[2]
+        w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
+        # divide by largest component if neccessary
+        if w[0] > 1.0 or w[1] > 1.0 or w[2] > 1.0:
+            if w[0] >= w[1] and w[0] >= w[2]:
+                maximum = w[0]
+            elif w[1] >= w[2]:
+                maximum = w[1]
+            else:
+                maximum = w[2]
+            w[0] /= maximum
+            w[1] /= maximum
+            w[2] /= maximum
 
 cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):
     cdef:
@@ -57,7 +92,6 @@ cpdef rotate_vector(double[:] v, double[:] w, double[:] axis, double angle):
     w[0] = (C * a0 * a0 + c) * v[0] + (C * a0 * a1 - s * a2) * v[1] + (C * a0 * a2 + s * a1) * v[2]
     w[1] = (C * a1 * a0 + s * a2) * v[0] + (C * a1 * a1 + c) * v[1] + (C * a1 * a2 - s * a0) * v[2]
     w[2] = (C * a2 * a0 - s * a1) * v[0] + (C * a2 * a1 + s * a0) * v[1] + (C * a2 * a2 + c) * v[2]
-
 
 cpdef scale_components(double[:] v, double[:] w, double factor_r, double factor_g, double factor_b):
     w[0] = v[0] * factor_r
@@ -81,6 +115,15 @@ cpdef turn_all_towards_other(double[:,:,:] img_in, double[:,:,:] img_out, double
         for j in range(M):
             rotate_vector_towards_other(img_in[i, j], img_out[i, j], other, other_norm, factor)
 
+cpdef turn_all_awayfrom_other(double[:,:,:] img_in, double[:,:,:] img_out, double[:] other, double factor):
+    cdef:
+        int N = img_in.shape[0]
+        int M = img_in.shape[1]
+        int i, j
+        double other_norm = sqrt(other[0] * other[0] + other[1] * other[1] + other[2] * other[2])
+    for i in range(N):
+        for j in range(M):
+            rotate_vector_awayfrom_other(img_in[i, j], img_out[i, j], other, other_norm, factor)
 
 cpdef rotate_all_constant(double[:,:,:] img_in, double[:,:,:] img_out, double[:] axis, double angle):
     cdef:
@@ -90,7 +133,6 @@ cpdef rotate_all_constant(double[:,:,:] img_in, double[:,:,:] img_out, double[:]
     for i in range(N):
         for j in range(M):
             rotate_vector(img_in[i, j], img_out[i, j], axis, angle)
-
 
 cpdef scale_all_in_components(double[:,:,:] img_in, double[:,:,:] img_out, double factor_r, double factor_g, double factor_b):
     cdef:

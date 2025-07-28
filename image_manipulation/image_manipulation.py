@@ -29,8 +29,8 @@ class ImageProject:
         img_reduced = (np.asarray(pil_image_red) / 255).astype(np.double)
         return cls(img)
 
-    def _clip_upper(self):
-        self.current_image = np.clip(self.current_image, None, 1.0)
+    def _clip(self):
+        self.current_image = np.clip(self.current_image, 0.0, 1.0)
 
     def display(self):
         img_show = plt.imshow(self.current_image)
@@ -86,6 +86,10 @@ class ImageProject:
 
     def turn_all_towards_other(self, factor, other):
         cylantro.turn_all_towards_other(self.image_original, self.current_image, other, factor)
+        
+    def turn_all_awayfrom_other(self, factor, other):
+        cylantro.turn_all_awayfrom_other(self.image_original, self.current_image, other, factor)
+        self._clip()
 
     def rotate_all_constant(self, axis, angle):
         axis = np.array([0, 0, 1], dtype=self.image_original.dtype)
