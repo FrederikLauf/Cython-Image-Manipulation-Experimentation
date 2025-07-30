@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from PIL import Image
 from image_manipulation.cynalg import cylantro
+from image_manipulation.cynalg import linalg
 import numpy as np
 import logging
 

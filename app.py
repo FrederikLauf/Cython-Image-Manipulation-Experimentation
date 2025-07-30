@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QFileDialog, QColorDialog
 import sys
 import gui.gui_form
 import image_manipulation.image_manipulation as im
+from image_manipulation.cynalg import linalg
 import numpy as np
 
 
@@ -16,6 +17,8 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         self.color_brightness_line_edits = [self.redFactorLineEdit, self.greenFactorLineEdit, self.blueFactorLineEdit]
         self.desaturation_target_color = np.array([1,1,1], dtype=np.double)
         self.calibration_axis = np.array([1,1,1], dtype=np.double)
+        self.calibration_origin = np.array([1,1,1], dtype=np.double)
+        self.calibration_target = np.array([1,1,1], dtype=np.double)
 
     # -------------------------------------------------------------------------
     # -------callback functions------------------------------------------------
@@ -115,7 +118,7 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         except ValueError:
             calibration = 999
         if not 0 <= calibration <= 360:
-            self.on_calibration_slider_changed()
+            self.on_calibration_angle_slider_changed()
         else:
             self.calibrationAngleSlider.setValue(calibration)
             self.on_calibration_angle_slider_released()
@@ -127,7 +130,43 @@ class ExampleApp(QtWidgets.QMainWindow, gui.gui_form.Ui_MainWindow):
         blue = color.blue()
         self.calibrationAxisButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
         self.calibration_axis = np.array([red, green, blue], dtype=np.double) / 255
+        self.calibrationAxisLabel.setText("{}, {}, {}".format(self.calibration_axis[0], self.calibration_axis[1], self.calibration_axis[2]))
+        self.calibrationTargetButton.setStyleSheet("")
+        self.calibrationOriginButton.setStyleSheet("")
+        
         self.on_calibration_angle_slider_released()
+        
+    def on_calibration_origin_button_clicked(self):
+        color = QColorDialog.getColor()
+        red = color.red()
+        green = color.green()
+        blue = color.blue()
+        self.calibrationOriginButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
+        self.calibration_origin = np.array([red, green, blue], dtype=np.double) / 255
+        
+    def on_calibration_target_button_clicked(self):
+        color = QColorDialog.getColor()
+        red = color.red()
+        green = color.green()
+        blue = color.blue()
+        self.calibrationTargetButton.setStyleSheet("background-color:rgb({},{},{})".format(red, green, blue))
+        self.calibration_target = np.array([red, green, blue], dtype=np.double) / 255
+        
+    def on_calibration_apply_button_clicked(self):
+        if all(self.calibration_origin == self.calibration_target):
+            angle = 0.0
+        else:
+            angle = linalg.angle_between_vectors(self.calibration_origin, self.calibration_target)
+        angle *= (360 / (2 * np.pi))
+        a0, a1, a2 = linalg._rotation_axis_between_vectors(self.calibration_origin, self.calibration_target)
+        self.calibrationAxisLabel.setText("{}, {}, {}".format(a0, a1, a2))
+        if a0 > 0.0 and a1 > 0.0 and a2 > 0.0:
+            self.calibrationAxisButton.setStyleSheet("background-color:rgb({},{},{})".format(255 * a0, 255 * a1, 255 * a2))
+        else:
+            self.calibrationAxisButton.setStyleSheet('')
+        self.calibration_axis = np.array([a0, a1, a2], dtype=np.double)
+        self.calibrationAngleLineEdit.setText(str(round(angle)))
+        self.on_calibration_angle_input_edited()
 
     # ------color saturation tab-----------------------------------------------
     def on_saturation_slider_changed(self):

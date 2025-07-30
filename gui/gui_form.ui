@@ -21,6 +21,34 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="loadImageButton">
+        <property name="text">
+         <string>load image</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="showHistogramsButton">
+        <property name="text">
+         <string>show histograms</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="showScatterPlotsButton">
+        <property name="text">
+         <string>show scatter plots</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="2" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
@@ -30,7 +58,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -390,15 +418,29 @@
        <attribute name="title">
         <string>Color calibration</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QPushButton" name="calibrationAxisButton">
-            <property name="text">
-             <string>Axis color</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLabel" name="calibrationAxisLabel">
+              <property name="text">
+               <string>1,1,1</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="calibrationAxisButton">
+              <property name="text">
+               <string>Axis color</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="label_2">
@@ -435,37 +477,34 @@
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QPushButton" name="calibrationOriginButton">
+            <property name="text">
+             <string>Origin color</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="calibrationTargetButton">
+            <property name="text">
+             <string>Target color</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="calibrationApplyButton">
+            <property name="text">
+             <string>Apply</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
-    </item>
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="loadImageButton">
-        <property name="text">
-         <string>load image</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="showHistogramsButton">
-        <property name="text">
-         <string>show histograms</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="showScatterPlotsButton">
-        <property name="text">
-         <string>show scatter plots</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
    </layout>
   </widget>
@@ -931,6 +970,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>calibrationOriginButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_origin_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>797</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationTargetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_target_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>797</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>calibrationApplyButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_calibration_apply_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>882</x>
+     <y>797</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_load_image_button_clicked()</slot>
@@ -955,5 +1042,8 @@
   <slot>on_calibration_angle_slider_changed()</slot>
   <slot>on_calibration_angle_input_edited()</slot>
   <slot>on_calibration_axis_button_clicked()</slot>
+  <slot>on_calibration_origin_button_clicked()</slot>
+  <slot>on_calibration_target_button_clicked()</slot>
+  <slot>on_calibration_apply_button_clicked()</slot>
  </slots>
 </ui>
