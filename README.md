@@ -10,4 +10,4 @@ Turn all color vectors away from the grey direction (angle = - \<factor\> * (\<c
 ### Color brightness
 Scale color components independently.
 ### Color calibration
-Turn all color vectors araound a chosen axis by a chosen angle.
+Turn all color vectors araound a chosen axis by a chosen angle. The axis and angle can be optionally determined by choosing an original color and a crresponding target color.
